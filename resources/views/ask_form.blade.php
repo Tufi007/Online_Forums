@@ -14,7 +14,7 @@
     </div>
     <label for="images">Images:</label>
     <div id="imageContainer">
-        <input type="file" name="images[]" accept="image/*" required>
+        <input type="file" name="images[]" accept="image/*">
     </div>
     <button type="button" id="addImage">Add More Images</button>
     <div>

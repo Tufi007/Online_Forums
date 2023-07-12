@@ -8,10 +8,12 @@
 
         @guest
             <!-- Show login and signup buttons when the user is not logged in -->
+            <li> <a href="{{ route('home') }}">Home </a> </li>
             <li><a href="{{ route('login') }}">Login</a></li>
             <li><a href="{{ route('signup') }}">Signup</a></li>
         @else
             <!-- Show a logout button when the user is logged in -->
+            <li> <a href="{{ route('home') }}">Home</a>  </li>
             <span>Welcome, {{ Auth::user()->name }}</span>
             <li>
                 <form action="{{ route('logout') }}" method="POST">

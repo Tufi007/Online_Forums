@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AskController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\SignupController;
+use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\QuestionDetailController;
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -26,6 +26,20 @@ Route::middleware('auth')->group(function () {
 
 });
 // Routes for ask questions page end
+
+
+//Routes for answering questions start
+Route::middleware('auth')->group(function () {
+    Route::get('/answer_form/{question_id}', [AnswerController::class, 'showAnsForm'])->name('answer_form');
+    Route::post('/submit_answer', [AnswerController::class, 'submitAnswer'])->name('submit_answer');
+});
+//Routes for answering questions end
+
+// Routes for questionDetail page start
+Route::get('/question/{question_id}', [QuestionDetailController::class, 'showQuestion'])->name('question_detail');
+
+// Routes for questionDetail page end
+
 
 
 

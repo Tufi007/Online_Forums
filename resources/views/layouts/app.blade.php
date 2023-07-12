@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
+    <title>X-advice</title>
+    <script defer src="{{ asset('js/global.js') }}"></script>
+
 </head>
 <body>
     <header>

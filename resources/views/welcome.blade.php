@@ -136,5 +136,7 @@
                 </div>
             </div>
         </div>
+        <script>window.location = "{{ route('home') }}";</script>
+
     </body>
 </html>
