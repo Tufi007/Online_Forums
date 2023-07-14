@@ -5,7 +5,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AskController;
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuestionDetailController;
+use App\Http\Controllers\VoteController;
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -39,6 +41,26 @@ Route::middleware('auth')->group(function () {
 Route::get('/question/{question_id}', [QuestionDetailController::class, 'showQuestion'])->name('question_detail');
 
 // Routes for questionDetail page end
+
+
+// Route for global questions page
+Route::get('/global_questions', [QuestionController::class, 'showGlobalQuestions'])->name('global_questions');
+
+
+// Upvote a question
+Route::post('/upvote_question/{questionId}', [VoteController::class, 'upvoteQuestion'])
+    ->name('upvote_question');
+
+// Downvote a question
+Route::post('/downvote_question/{questionId}', [VoteController::class, 'downvoteQuestion'])
+    ->name('downvote_question');
+
+// Route to upvote an answer
+Route::post('/upvote_answer/{answerId}', [VoteController::class, 'upvoteAnswer']);
+
+
+// Route to downupvote an answer
+Route::post('/downvote_answer/{answerId}', [VoteController::class, 'downvoteAnswer']);
 
 
 

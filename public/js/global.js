@@ -1,3 +1,14 @@
+$(document).ready(function() {
+    console.log('jQuery is working!');
+  });
+
+  $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+
 // Get all the image buttons
 const imageButtons = document.querySelectorAll('.image-button');
 
@@ -76,3 +87,72 @@ toggleButtons.forEach(button => {
         });
     });
 });
+
+// Upvote Button Click Event
+function upvoteQuestion(buttonId) {
+    var questionId = $('#' + buttonId).data('id');
+    $.ajax({
+        url: '/upvote_question/' + questionId,
+        type: 'POST',
+        success: function(response) {
+            // Handle the success response
+            console.log(response.message);
+        },
+        error: function(response) {
+            // Handle the error response
+            console.log(response);
+        }
+    });
+}
+
+// Downvote Button Click Event
+function downvoteQuestion(buttonId) {
+    var questionId = $('#' + buttonId).data('id');
+    $.ajax({
+        url: '/downvote_question/' + questionId,
+        type: 'POST',
+        success: function(response) {
+            // Handle the success response
+            console.log(response.message);
+        },
+        error: function(response) {
+            // Handle the error response
+            console.log(response);
+        }
+    });
+}
+
+
+// Upvote Button Click Event for the answer
+function upvoteAnswer(buttonId) {
+    var answerId = $('#' + buttonId).data('id');
+    $.ajax({
+        url: '/upvote_answer/' + answerId,
+        type: 'POST',
+        success: function(response) {
+            // Handle the success response
+            console.log(response.message);
+        },
+        error: function(response) {
+            // Handle the error response
+            console.log(response);
+        }
+    });
+}
+
+// Downvote Button Click Event for the answer
+function downvoteAnswer(buttonId) {
+    var answerId = $('#' + buttonId).data('id');
+    $.ajax({
+        url: '/downvote_answer/' + answerId,
+        type: 'POST',
+        success: function(response) {
+            // Handle the success response
+            console.log(response.message);
+        },
+        error: function(response) {
+            // Handle the error response
+            console.log(response);
+        }
+    });
+}

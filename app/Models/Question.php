@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Vote;
+
 
 class Question extends Model
 {
@@ -34,5 +36,11 @@ class Question extends Model
 {
     return $this->hasMany(Answer::class, 'q_id');
 }
+
+public function votes()
+{
+    return $this->morphMany(Vote::class, 'votable');
+}
+
 
 }
