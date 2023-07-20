@@ -1,54 +1,107 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
-        <aside class="col-md-3">
-            <h4>Profile</h4>
+<div class="row">
+    <aside class="col-md-3">
+        <h4>Profile</h4>
+        <ul>
+            <li><button onclick="showData('profile')">Edit/Update Profile</button></li>
+            <li><button onclick="showData('questions')">My Questions</button></li>
+            <li><button onclick="showData('answers')">My Answers</button></li>
+            <li><button onclick="showData('comments')">My Comments</button></li>
+        </ul>
+    </aside>
+    <main class="col-md-9">
+        <!-- Profile data -->
+        <div id="profileData" style="display: none;">
+            <h2>This is the profile data</h2>
+            <p>Name: {{ $user->name }}</p>
+            <p>Email: {{ $user->email }}</p>
+            <!-- Add other profile fields here -->
+        </div>
+
+        <!-- My questions data -->
+        <div id="questionsData" style="display: none;">
+            <h2>This is the questions data</h2>
             <ul>
-                <li><button onclick="showData('profile')">Edit/Update Profile</button></li>
-                <li><button onclick="showData('questions')">My Questions</button></li>
-                <li><button onclick="showData('answers')">My Answers</button></li>
-                <li><button onclick="showData('comments')">My Comments</button></li>
+                @foreach ($user->questions as $question)
+                <li>{{ $question->title }} <a href="{{ route('edit_question', ['question_id' => $question->q_id]) }}">Edit</a></li>
+                </li>
+                @endforeach
             </ul>
-        </aside>
-        <main class="col-md-9">
-            <!-- Profile data -->
-            <div id="profileData" style="display: none;">
-                <h2>This is the profile data</h2>
-                <p>Name: {{ $user->name }}</p>
-                <p>Email: {{ $user->email }}</p>
-                <!-- Add other profile fields here -->
-            </div>
+        </div>
 
-            <!-- My questions data -->
-            <div id="questionsData" style="display: none;">
-                <h2>This is the questions data</h2>
-                <ul>
-                    @foreach ($user->questions as $question)
-                        <li>{{ $question->title }} <a href="{{ route('edit_question', ['question_id' => $question->q_id]) }}">Edit</a></li> </li>
-                    @endforeach
-                </ul>
-            </div>
+        <!-- My answers data -->
+        <div id="answersData" style="display: none;">
+            <h2>This is the answers data</h2>
+            <ul>
+                @foreach ($user->answers as $answer)
+                <li>{{ $answer->answer_text }} <a href="{{ route('edit_answer', ['answer_id' => $answer->a_id]) }}">Edit</a> </li>
+                @endforeach
+            </ul>
+        </div>
 
-            <!-- My answers data -->
-            <div id="answersData" style="display: none;">
-                <h2>This is the answers data</h2>
-                <ul>
-                    @foreach ($user->answers as $answer)
-                        <li>{{ $answer->answer_text }}  <a href="{{ route('edit_answer', ['answer_id' => $answer->a_id]) }}">Edit</a> </li>
-                    @endforeach
-                </ul>
-            </div>
+        <!-- My comments data -->
+        <div id="commentsData" style="display: none;">
+            <h2>This is the comments data</h2>
+            <ul>
+                @foreach ($user->comments as $comment)
+                <li id="comment-{{ $comment->id }}">{{ $comment->comment_text }}</li>
+                <button class="edit-comment-button" onclick="openEditPopup('{{ $comment->id }}')" data-comment-id="{{ $comment->id }}" id="edit-comment-btn-{{ $comment->id }}">Edit</button>
+                @endforeach
 
-            <!-- My comments data -->
-            <div id="commentsData" style="display: none;">
-                <h2>This is the comments data</h2>
-                <ul>
-                    @foreach ($user->comments as $comment)
-                        <li>{{ $comment->comment_text }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        </main>
-    </div>
+            </ul>
+        </div>
+        <!-- Edit Comment Popup -->
+        <div id="editCommentModal" style="display: none;">
+            <h2>Edit Comment</h2>
+            <textarea id="editCommentText"></textarea>
+            <button onclick="updateComment()">Save Changes</button>
+            <button onclick="closeEditPopup()">Cancel</button>
+        </div>
+    </main>
+</div>
+
+<script>
+    function openEditPopup(commentId) {
+        const commentText = document.getElementById(`comment-${commentId}`).innerText;
+        document.getElementById('editCommentText').value = commentText;
+        document.getElementById('editCommentModal').style.display = 'block';
+    }
+
+    function closeEditPopup() {
+        document.getElementById('editCommentModal').style.display = 'none';
+    }
+
+    function updateComment() {
+        const editCommentBtn = document.getElementById(`edit-comment-btn-{{$comment->id}}`);
+        const commentId = editCommentBtn.getAttribute("data-comment-id");
+        const editedComment = document.getElementById('editCommentText').value;
+
+        // Send the update request using AJAX
+        fetch(`/update_comment/${commentId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Replace with the actual CSRF token
+            },
+            body: JSON.stringify({ comment_text: editedComment }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Assuming the server responds with the updated comment data
+            // Update the comment text in the view
+            document.getElementById(`comment-${commentId}`).innerText = data.comment_text;
+
+            // Close the edit comment popup
+            closeEditPopup();
+        })
+        .catch(error => {
+            // Handle errors
+            console.error('Error:', error);
+        });
+    }
+
+
+</script>
 @endsection

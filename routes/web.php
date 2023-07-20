@@ -84,6 +84,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/edit_answer/{answer_id}', [AnswerController::class, 'editAnswer'])->name('edit_answer');
     Route::post('/update_answer/{answer_id}', [AnswerController::class, 'updateAnswer'])->name('update_answer');
+
+    Route::post('/update_comment/{comment_id}', [CommentController::class, 'updateComment'])->name('update_comment');
 });
 
 

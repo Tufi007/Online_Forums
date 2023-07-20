@@ -45,6 +45,8 @@
         <button class="show-comments-button" id="show-comments-btn-{{ $answer->a_id  }}" data-answer-id="{{ $answer->a_id }}" onclick="showComments(this.id)">Show Comments</button>
         <div class="comments-container" id="comments-container-{{ $answer->a_id }}" style="display: none;">
         @foreach ($answer->comments as $comment)
+        <strong>{{ $comment->user->name }}</strong> <br>
+           <small>{{ $comment->user->username }}</small>
             <div>{{ $comment->comment_text }}</div>
         @endforeach
         </div>

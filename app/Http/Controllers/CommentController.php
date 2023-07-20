@@ -35,4 +35,26 @@ class CommentController extends Controller
         return view('comments', compact('comments'));
     }
 
+    public function updateComment(Request $request, $comment_id)
+    {
+        // Validate the form data
+        $validatedData = $request->validate([
+            'comment_text' => 'required|string|max:255',
+        ]);
+
+        // Get the comment to update
+        $comment = Comment::find($comment_id);
+
+        // Update the comment text
+        $comment->comment_text = $request->input('comment_text');
+
+        // Save the updated comment
+        $comment->save();
+
+        // Return the updated comment data in JSON format
+        return response()->json([
+            'comment_text' => $comment->comment_text,
+        ]);
+    }
+
 }
