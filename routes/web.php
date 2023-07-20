@@ -77,6 +77,12 @@ Route::middleware('auth')->group(function () {
 });
 
 
+// Route for editing question
+Route::middleware('auth')->group(function () {
+    Route::get('/edit_question/{question_id}', [QuestionController::class, 'editQuestion'])->name('edit_question');
+    Route::post('/update_question/{q_id}', [QuestionController::class, 'updateQuestion'])->name('update_question');
+});
+
 
 
 

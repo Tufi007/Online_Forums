@@ -25,7 +25,7 @@
                 <h2>This is the questions data</h2>
                 <ul>
                     @foreach ($user->questions as $question)
-                        <li>{{ $question->title }}</li>
+                        <li>{{ $question->title }} <a href="{{ route('edit_question', ['question_id' => $question->q_id]) }}">Edit</a></li> </li>
                     @endforeach
                 </ul>
             </div>

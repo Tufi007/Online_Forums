@@ -10,7 +10,7 @@
     </div>
     <div>
         <label for="description">Description</label>
-        <textarea name="description" id="description"></textarea>
+        <textarea name="description" id="description" rows="7"></textarea>
     </div>
     <label for="images">Images:</label>
     <div id="imageContainer">
