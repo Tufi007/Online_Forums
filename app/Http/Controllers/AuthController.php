@@ -26,7 +26,7 @@ class AuthController extends Controller
         'username' => 'required|string|max:255|unique:users',
         'password' => 'required|string|min:8',
         'phone_number' => 'required|string|max:255',
-        'address' => 'required|string|max:255',
+        'alternate_phone_number' => 'required|string|max:255',
     ]);
 
     // Create a new user record - This code sends form data into database
@@ -36,7 +36,7 @@ class AuthController extends Controller
         'username' => $validatedData['username'],
         'password' => Hash::make($validatedData['password']),
         'phone_number' => $validatedData['phone_number'],
-        'address' => $validatedData['address'],
+        'alternate_phone_number' => $validatedData['alternate_phone_number'],
     ]);
 
     return redirect()->route('home');

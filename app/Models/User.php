@@ -23,7 +23,7 @@ class User extends Authenticatable
         'username',
         'password',
         'phone_number',
-        'address',
+        'alternate_phone_number',
     ];
 
     /**
@@ -51,10 +51,21 @@ class User extends Authenticatable
     return $this->hasMany(Question::class, 'user_id');
 }
 
+public function answers()
+{
+    return $this->hasMany(Answer::class, 'user_id');
+}
+
 
 public function votes()
 {
     return $this->hasMany(Vote::class);
+}
+
+
+public function comments()
+{
+    return $this->hasMany(Comment::class);
 }
 
 }

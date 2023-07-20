@@ -156,3 +156,43 @@ function downvoteAnswer(buttonId) {
         }
     });
 }
+
+
+
+// Function to show or hide comments
+function showComments(buttonId) {
+    var button = document.getElementById(buttonId);
+    var answerId = button.getAttribute('data-answer-id');
+    var commentsContainer = document.getElementById('comments-container-' + answerId);
+
+    if (commentsContainer.style.display === 'none') {
+        // Comments container is hidden, show it
+        commentsContainer.style.display = 'block';
+    } else {
+        // Comments container is visible, hide it
+        commentsContainer.style.display = 'none';
+    }
+}
+
+
+function showData(dataType) {
+    // Hide all data divs
+    document.getElementById('profileData').style.display = 'none';
+    document.getElementById('questionsData').style.display = 'none';
+    document.getElementById('answersData').style.display = 'none';
+    document.getElementById('commentsData').style.display = 'none';
+
+    // Show the selected data div
+    if (dataType === 'profile') {
+        document.getElementById('profileData').style.display = 'block';
+    } else if (dataType === 'questions') {
+        document.getElementById('questionsData').style.display = 'block';
+    } else if (dataType === 'answers') {
+        document.getElementById('answersData').style.display = 'block';
+    } else if (dataType === 'comments') {
+        document.getElementById('commentsData').style.display = 'block';
+    }
+}
+
+// Call the showData function with a default data type (e.g., 'profile')
+showData('profile');

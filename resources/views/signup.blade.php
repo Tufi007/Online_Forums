@@ -33,8 +33,8 @@
             <input type="text" name="phone_number" id="phone_number">
         </div>
         <div>
-            <label for="address">Address</label>
-            <input type="text" name="address" id="address">
+            <label for="alternate_phone_number">Alternate Phone Number</label>
+            <input type="text" name="alternate_phone_number" id="alternate_phone_number">
         </div>
         <div>
             <button type="submit" name="signup" id="signup-button">Sign-up!</button>

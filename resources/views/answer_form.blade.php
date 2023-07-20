@@ -1,6 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
     <h1>Answer Form</h1>
     <h2>Question: {{ $question->title }}</h2>
     <h3>Description: {{ $question->description }}</h3>

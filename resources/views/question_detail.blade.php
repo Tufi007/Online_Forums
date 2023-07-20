@@ -41,6 +41,23 @@
         <!-- Downvote Button for the answer -->
         <button class="downvote-button" data-id="{{ $answer->a_id }}" id="answer_downvote_btn_{{  $answer->a_id }}" onclick="downvoteAnswer(this.id)">Downvote</button>
 
+        <!-- Show Comments Button -->
+        <button class="show-comments-button" id="show-comments-btn-{{ $answer->a_id  }}" data-answer-id="{{ $answer->a_id }}" onclick="showComments(this.id)">Show Comments</button>
+        <div class="comments-container" id="comments-container-{{ $answer->a_id }}" style="display: none;">
+        @foreach ($answer->comments as $comment)
+            <div>{{ $comment->comment_text }}</div>
+        @endforeach
+        </div>
+
+        <!-- Comment Form -->
+        <form action="{{ route('submit_comment') }}" method="POST">
+            @csrf
+            <textarea class="comment-textarea" name="comment_text" data-answer-id="{{ $answer->a_id }}"></textarea>
+            <input type="hidden" name="answer_id" value="{{ $answer->a_id }}">
+            <input type="hidden" name="question_id" value="{{ $question->q_id }}">
+            <button type="submit">Comment</button>
+        </form>
+
         <button class="toggle-image-button">Toggle Image</button>
         @if ($answer->image)
         @foreach(json_decode($answer->image) as $image)

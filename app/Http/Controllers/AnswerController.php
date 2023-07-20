@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -6,6 +7,7 @@ use App\Models\Question;
 use App\Models\Answer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\log;
 
 class AnswerController extends Controller
 {
@@ -38,25 +40,26 @@ class AnswerController extends Controller
             }
         }
 
+
         // Create a new answer instance and fill the data
         $answer = new Answer();
         $answer->user_id = $userId;
         $answer->answer_text = $request->input('answer_text');
-        if(!empty($images)){
+        if (!empty($images)) {
             $answer->image = json_encode($images);
-        }else{
+        } else {
             $answer->image = NULL;
         }
+        $answer->date_time = now();
         $answer->reference_links = $request->input('reference_links');
         $answer->q_id = $request->input('q_id');
-        $answer->date_time = now();
 
         // Save the answer
-        $answer->save();
-
-        // Redirect or perform any additional actions after successful submission
-        return redirect()->route('answer_form', ['question_id' => $answer->q_id])->with('success', 'Answer submitted successfully!');
+        if ($answer->save()) {
+            Session::flash('success', 'Answer submitted successfully!');
+        } else {
+            Session::flash('error', 'Failed to submit the answer. Please try again.');
+        }
+        return redirect()->back();
     }
-
-
 }

@@ -8,6 +8,8 @@ use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuestionDetailController;
 use App\Http\Controllers\VoteController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -61,6 +63,19 @@ Route::post('/upvote_answer/{answerId}', [VoteController::class, 'upvoteAnswer']
 
 // Route to downupvote an answer
 Route::post('/downvote_answer/{answerId}', [VoteController::class, 'downvoteAnswer']);
+
+
+//Routes for comments
+
+Route::post('/submit_comment', [CommentController::class, 'submitComment'])->name('submit_comment');
+Route::get('/get_comments/{answerId}', [CommentController::class, 'getComments'])->name('get_comments');
+
+
+// Route for my profile
+Route::middleware('auth')->group(function () {
+    Route::get('/my_profile', [ProfileController::class, 'showProfile'])->name('my_profile');
+});
+
 
 
 

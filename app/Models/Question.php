@@ -42,5 +42,10 @@ public function votes()
     return $this->morphMany(Vote::class, 'votable');
 }
 
+public function comments()
+{
+    return $this->hasMany(Comment::class, 'q_id');
+}
+
 
 }

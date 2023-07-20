@@ -40,4 +40,9 @@ class Answer extends Model
     return $this->morphMany(Vote::class, 'votable');
 }
 
+public function comments()
+{
+    return $this->hasMany(Comment::class, 'a_id');
+}
+
 }
