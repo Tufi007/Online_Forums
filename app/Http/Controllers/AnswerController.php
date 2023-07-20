@@ -8,6 +8,7 @@ use App\Models\Answer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\log;
+use Illuminate\Support\Facades\Storage;
 
 class AnswerController extends Controller
 {
@@ -62,4 +63,77 @@ class AnswerController extends Controller
         }
         return redirect()->back();
     }
+
+    public function editAnswer($answer_id)
+{
+    $answer = Answer::find($answer_id);
+    // Additional logic for editing the answer
+    return view('edit_answer', compact('answer'));
+}
+public function updateAnswer(Request $request, $answer_id)
+{
+    // Validate the form data
+    $validatedData = $request->validate([
+        'answer_text' => 'required',
+        // 'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        // 'deleted_images' => 'nullable|array',
+        // 'new_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'reference_links' => 'nullable|url',
+    ]);
+
+    // Get the answer to update
+    $answer = Answer::find($answer_id);
+
+    // Initialize image field as an empty array if it is null
+    $answer->image = $answer->image ? json_decode($answer->image, true) : [];
+
+    // Handle new images
+    if ($request->hasFile('new_images')) {
+        $newImages = [];
+        foreach ($request->file('new_images') as $newImage) {
+            $imageName = time() . '_' . $newImage->getClientOriginalName();
+            $newImage->move(public_path('images'), $imageName);
+            $newImages[] = 'images/' . $imageName;
+        }
+        $currentImages = $answer->image;
+        $allImages = array_merge($currentImages, $newImages);
+        $answer->image = json_encode($allImages);
+    }
+
+     // Handle deleted images
+     if ($request->has('deleted_images')) {
+        $deletedImages = json_decode($request->input('deleted_images'), true);
+        if (!empty($deletedImages)) {
+            if($request->hasFile('new_images')){
+                $currentImages = $allImages;
+            } else {
+                $currentImages = $answer->image;
+            }
+            $updatedImages = array_diff($currentImages, $deletedImages);
+            $answer->image = !empty($updatedImages) ? json_encode($updatedImages) : null;
+
+             // Delete the image files from the server
+             foreach ($deletedImages as $deletedImage) {
+                if (file_exists(public_path($deletedImage))) {
+                    unlink(public_path($deletedImage));
+                }
+            }
+        }
+    }
+
+    // Update the answer data
+    $answer->answer_text = $request->input('answer_text');
+    $answer->reference_links = $request->input('reference_links');
+    // Add other fields here...
+
+    // Save the updated answer
+    $answer->save();
+
+    // Redirect to the user's profile page after successful update
+    return redirect()->route('my_profile')->with('success', 'Answer updated successfully!');
+}
+
+
+
+
 }

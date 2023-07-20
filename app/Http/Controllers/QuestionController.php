@@ -43,11 +43,31 @@ public function updateQuestion(Request $request, $q_id)
     $question->s_id = $validatedData['subject_id'];
     // Add other updates for other columns here
 
-    // Handle deleted images
-    if ($request->has('deleted_images')) {
+     // Initialize image field as an empty array if it is null
+     $question->image = $question->image ? json_decode($question->image, true) : [];
+
+    // Handle new images
+    if ($request->hasFile('new_images')) {
+        $newImages = [];
+        foreach ($request->file('new_images') as $newImage) {
+            $imageName = time() . '_' . $newImage->getClientOriginalName();
+            $newImage->move(public_path('images'), $imageName);
+            $newImages[] = 'images/' . $imageName;
+        }
+        $currentImages = $question->image;
+        $allImages = array_merge($currentImages, $newImages);
+        $question->image = json_encode($allImages);
+    }
+
+     // Handle deleted images
+     if ($request->has('deleted_images')) {
         $deletedImages = json_decode($request->input('deleted_images'), true);
         if (!empty($deletedImages)) {
-            $currentImages = json_decode($question->image, true);
+            if($request->hasFile('new_images')){
+                $currentImages = $allImages;
+            } else {
+                $currentImages = $question->image;
+            }
             $updatedImages = array_diff($currentImages, $deletedImages);
             $question->image = !empty($updatedImages) ? json_encode($updatedImages) : null;
 
@@ -58,19 +78,6 @@ public function updateQuestion(Request $request, $q_id)
                 }
             }
         }
-    }
-
-    // Handle new images
-    if ($request->hasFile('new_images')) {
-        $newImages = [];
-        foreach ($request->file('new_images') as $newImage) {
-            $imageName = time() . '_' . $newImage->getClientOriginalName();
-            $newImage->move(public_path('images'), $imageName);
-            $newImages[] = 'images/' . $imageName;
-        }
-        $currentImages = json_decode($question->image, true);
-        $allImages = array_merge($currentImages, $newImages);
-        $question->image = json_encode($allImages);
     }
 
     // Save the updated question

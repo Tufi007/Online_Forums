@@ -77,10 +77,13 @@ Route::middleware('auth')->group(function () {
 });
 
 
-// Route for editing question
+// Route for editing questions, answers and comments
 Route::middleware('auth')->group(function () {
     Route::get('/edit_question/{question_id}', [QuestionController::class, 'editQuestion'])->name('edit_question');
     Route::post('/update_question/{q_id}', [QuestionController::class, 'updateQuestion'])->name('update_question');
+
+    Route::get('/edit_answer/{answer_id}', [AnswerController::class, 'editAnswer'])->name('edit_answer');
+    Route::post('/update_answer/{answer_id}', [AnswerController::class, 'updateAnswer'])->name('update_answer');
 });
 
 

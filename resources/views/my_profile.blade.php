@@ -35,7 +35,7 @@
                 <h2>This is the answers data</h2>
                 <ul>
                     @foreach ($user->answers as $answer)
-                        <li>{{ $answer->answer_text }}</li>
+                        <li>{{ $answer->answer_text }}  <a href="{{ route('edit_answer', ['answer_id' => $answer->a_id]) }}">Edit</a> </li>
                     @endforeach
                 </ul>
             </div>
