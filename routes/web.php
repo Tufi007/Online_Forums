@@ -88,7 +88,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/update_comment/{comment_id}', [CommentController::class, 'updateComment'])->name('update_comment');
 });
 
-// Routes to update profile data and user data
+// Routes to update profile data, user data and change the password
 // web.php
 Route::middleware('auth')->group(function () {
 
@@ -98,6 +98,10 @@ Route::middleware('auth')->group(function () {
 
     // Route to create profile
     Route::post('/create_profile', [ProfileController::class, 'createProfile'])->name('create_profile');
+
+    //Route to change the password
+    Route::post('/change_password', [AuthController::class, 'changePassword'])->name('change_password');
+
 });
 
 

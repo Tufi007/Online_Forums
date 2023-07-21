@@ -6,6 +6,7 @@
         <h4>Profile</h4>
         <ul>
             <li><button onclick="showData('profile')">Edit/Update Profile</button></li>
+            <li><button onclick="showData('changePassword')">Change Password</button></li>
             <li><button onclick="showData('questions')">My Questions</button></li>
             <li><button onclick="showData('answers')">My Answers</button></li>
             <li><button onclick="showData('comments')">My Comments</button></li>
@@ -122,6 +123,30 @@
             </form>
             @endif
         </div>
+
+        <!-- Change Password -->
+        <div id="changePasswordData" style="display: none;">
+            <h4>Change Password</h4>
+            <form method="POST" action="{{ route('change_password') }}" onsubmit="return validatePassword()">
+                @csrf
+                <div>
+                    <label for="current_password">Current Password</label>
+                    <input type="password" name="current_password">
+                </div>
+                <div>
+                    <label for="new_password">New Password</label>
+                    <input type="password" id="new_password" name="new_password">
+                </div>
+                <div>
+                    <label for="confirm_new_password">Confirm New Password</label>
+                    <input type="password" id="confirm_new_password" name="confirm_new_password">
+                </div>
+                <div>
+                    <button type="submit">Change Password</button>
+                </div>
+            </form>
+        </div>
+
 
         <!-- My questions data -->
         <div id="questionsData" style="display: none;">

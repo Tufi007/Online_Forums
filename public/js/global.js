@@ -181,11 +181,15 @@ function showData(dataType) {
     document.getElementById('questionsData').style.display = 'none';
     document.getElementById('answersData').style.display = 'none';
     document.getElementById('commentsData').style.display = 'none';
+    document.getElementById('changePasswordData').style.display = 'none';
 
     // Show the selected data div
     if (dataType === 'profile') {
         document.getElementById('profileData').style.display = 'block';
-    } else if (dataType === 'questions') {
+    } else if(dataType === 'changePassword'){
+        document.getElementById('changePasswordData').style.display = 'block';
+    }
+    else if (dataType === 'questions') {
         document.getElementById('questionsData').style.display = 'block';
     } else if (dataType === 'answers') {
         document.getElementById('answersData').style.display = 'block';
@@ -196,3 +200,21 @@ function showData(dataType) {
 
 // Call the showData function with a default data type (e.g., 'profile')
 showData('profile');
+
+
+function validatePassword() {
+    const newPassword = document.getElementById('new_password').value;
+    const confirmNewPassword = document.getElementById('confirm_new_password').value;
+
+    if (newPassword !== confirmNewPassword) {
+        alert('New password and Confirm new password do not match.');
+        return false;
+    }
+
+    if (newPassword.length < 8) {
+        alert('New password must be at least 8 characters long.');
+        return false;
+    }
+
+    return true;
+}

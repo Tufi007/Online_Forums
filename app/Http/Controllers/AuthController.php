@@ -19,27 +19,27 @@ class AuthController extends Controller
 
     public function signup(Request $request)
     {
-       // Validate the form data
-    $validatedData = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'username' => 'required|string|max:255|unique:users',
-        'password' => 'required|string|min:8',
-        'phone_number' => 'required|string|max:255',
-        'alternate_phone_number' => 'required|string|max:255',
-    ]);
+        // Validate the form data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'username' => 'required|string|max:255|unique:users',
+            'password' => 'required|string|min:8',
+            'phone_number' => 'required|string|max:255',
+            'alternate_phone_number' => 'required|string|max:255',
+        ]);
 
-    // Create a new user record - This code sends form data into database
-    $user = User::create([
-        'name' => $validatedData['name'],
-        'email' => $validatedData['email'],
-        'username' => $validatedData['username'],
-        'password' => Hash::make($validatedData['password']),
-        'phone_number' => $validatedData['phone_number'],
-        'alternate_phone_number' => $validatedData['alternate_phone_number'],
-    ]);
+        // Create a new user record - This code sends form data into database
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'username' => $validatedData['username'],
+            'password' => Hash::make($validatedData['password']),
+            'phone_number' => $validatedData['phone_number'],
+            'alternate_phone_number' => $validatedData['alternate_phone_number'],
+        ]);
 
-    return redirect()->route('home');
+        return redirect()->route('home');
     }
 
     public function showLoginForm()
@@ -49,8 +49,8 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-           // Validate the form data
-           $validatedData = $request->validate([
+        // Validate the form data
+        $validatedData = $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
@@ -93,6 +93,28 @@ class AuthController extends Controller
         // Redirect back to the profile edit page with a success message
         return redirect()->back()->with('success', 'User data updated successfully!');
     }
+
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:8',
+        ]);
+
+        $user = User::find(Auth::id());
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Incorrect current password']);
+        }
+
+        // Update the password attribute with the new hashed password
+        $user->password = Hash::make($request->new_password);
+        $user->save(); // Save the updated user model to the database
+
+        return redirect()->route('my_profile')->with('success', 'Password changed successfully!');
+    }
+
 
 
     public function logout(Request $request)
