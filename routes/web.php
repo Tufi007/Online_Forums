@@ -101,6 +101,9 @@ Route::middleware('auth')->group(function () {
 
     //Route to change the password
     Route::post('/change_password', [AuthController::class, 'changePassword'])->name('change_password');
+    // routes/web.php
+    Route::post('/delete_account', [AuthController::class, 'deleteAccount'])->name('delete_account');
+
 
 });
 

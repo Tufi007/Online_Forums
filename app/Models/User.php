@@ -25,6 +25,7 @@ class User extends Authenticatable
         'password',
         'phone_number',
         'alternate_phone_number',
+        'delete_requested_at',
     ];
 
     /**

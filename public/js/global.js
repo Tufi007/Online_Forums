@@ -182,6 +182,7 @@ function showData(dataType) {
     document.getElementById('answersData').style.display = 'none';
     document.getElementById('commentsData').style.display = 'none';
     document.getElementById('changePasswordData').style.display = 'none';
+    document.getElementById('deleteAccountData').style.display = 'none';
 
     // Show the selected data div
     if (dataType === 'profile') {
@@ -195,6 +196,8 @@ function showData(dataType) {
         document.getElementById('answersData').style.display = 'block';
     } else if (dataType === 'comments') {
         document.getElementById('commentsData').style.display = 'block';
+    } else if(dataType === 'deleteAccount'){
+        document.getElementById('deleteAccountData').style.display = 'block';
     }
 }
 
@@ -217,4 +220,9 @@ function validatePassword() {
     }
 
     return true;
+}
+
+
+function confirmDelete() {
+    return confirm('Are you sure you want to delete your account?');
 }

@@ -10,6 +10,7 @@
             <li><button onclick="showData('questions')">My Questions</button></li>
             <li><button onclick="showData('answers')">My Answers</button></li>
             <li><button onclick="showData('comments')">My Comments</button></li>
+            <li><button onclick="showData('deleteAccount')">Delete My Account</button></li>
         </ul>
     </aside>
     <main class="col-md-9">
@@ -176,6 +177,48 @@
                 @foreach ($user->comments as $comment)
                 <li id="comment-{{ $comment->id }}">{{ $comment->comment_text }}</li>
                 <button class="edit-comment-button" onclick="openEditPopup('{{ $comment->id }}')" data-comment-id="{{ $comment->id }}" id="edit-comment-btn-{{ $comment->id }}">Edit</button>
+                <script>
+                    function openEditPopup(commentId) {
+                        const commentText = document.getElementById(`comment-${commentId}`).innerText;
+                        document.getElementById('editCommentText').value = commentText;
+                        document.getElementById('editCommentModal').style.display = 'block';
+                    }
+
+                    function closeEditPopup() {
+                        document.getElementById('editCommentModal').style.display = 'none';
+                    }
+
+                    function updateComment() {
+                        const editCommentBtn = document.getElementById(`edit-comment-btn-{{$comment->id}}`);
+                        const commentId = editCommentBtn.getAttribute("data-comment-id");
+                        const editedComment = document.getElementById('editCommentText').value;
+
+                        // Send the update request using AJAX
+                        fetch(`/update_comment/${commentId}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}', // Replace with the actual CSRF token
+                                },
+                                body: JSON.stringify({
+                                    comment_text: editedComment
+                                }),
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                // Assuming the server responds with the updated comment data
+                                // Update the comment text in the view
+                                document.getElementById(`comment-${commentId}`).innerText = data.comment_text;
+
+                                // Close the edit comment popup
+                                closeEditPopup();
+                            })
+                            .catch(error => {
+                                // Handle errors
+                                console.error('Error:', error);
+                            });
+                    }
+                </script>
                 @endforeach
 
             </ul>
@@ -187,49 +230,24 @@
             <button onclick="updateComment()">Save Changes</button>
             <button onclick="closeEditPopup()">Cancel</button>
         </div>
+
+        <!-- Delete Account section -->
+        <div id="deleteAccountData" style="display: none;">
+            <h4>Delete Account</h4>
+            <form method="POST" action="{{ route('delete_account') }}" onsubmit="return confirmDelete()">
+                @csrf
+                <div>
+                    <label for="password">Enter Your Password:</label>
+                    <input type="password" name="password" id="password">
+                </div>
+                <div>
+                    <button type="submit">Permanently Delete My Account</button>
+                </div>
+            </form>
+
+        </div>
     </main>
 </div>
 
-<script>
-    function openEditPopup(commentId) {
-        const commentText = document.getElementById(`comment-${commentId}`).innerText;
-        document.getElementById('editCommentText').value = commentText;
-        document.getElementById('editCommentModal').style.display = 'block';
-    }
 
-    function closeEditPopup() {
-        document.getElementById('editCommentModal').style.display = 'none';
-    }
-
-    function updateComment() {
-        const editCommentBtn = document.getElementById(`edit-comment-btn-{{$comment->id}}`);
-        const commentId = editCommentBtn.getAttribute("data-comment-id");
-        const editedComment = document.getElementById('editCommentText').value;
-
-        // Send the update request using AJAX
-        fetch(`/update_comment/${commentId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}', // Replace with the actual CSRF token
-                },
-                body: JSON.stringify({
-                    comment_text: editedComment
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Assuming the server responds with the updated comment data
-                // Update the comment text in the view
-                document.getElementById(`comment-${commentId}`).innerText = data.comment_text;
-
-                // Close the edit comment popup
-                closeEditPopup();
-            })
-            .catch(error => {
-                // Handle errors
-                console.error('Error:', error);
-            });
-    }
-</script>
 @endsection

@@ -64,6 +64,10 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             // Authentication passed
             // Redirect to the appropriate page
+            $user = $request->user();
+            if ($user->delete_requested_at) {
+                $user->update(['delete_requested_at' => null]);
+            }
             return redirect()->route('home');
         } else {
             // Authentication failed
@@ -113,6 +117,22 @@ class AuthController extends Controller
         $user->save(); // Save the updated user model to the database
 
         return redirect()->route('my_profile')->with('success', 'Password changed successfully!');
+    }
+
+
+    public function deleteAccount(Request $request)
+    {
+        $user = User::find(Auth::id());
+
+        // Check if the entered password matches the user's password in the database
+        if (!Hash::check($request->password, $user->password)) {
+            return redirect()->route('my_profile')->with('error', 'Incorrect password. Account deletion request canceled.');
+        }
+
+        // Update the delete_requested_at column with the current timestamp
+        $user->update(['delete_requested_at' => now()]);
+
+        return redirect()->route('my_profile')->with('success', 'Account deletion requested. You have 10 days to cancel the request by logging in again.');
     }
 
 
