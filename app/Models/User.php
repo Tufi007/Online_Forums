@@ -56,6 +56,11 @@ public function answers()
     return $this->hasMany(Answer::class, 'user_id');
 }
 
+public function profiles()
+{
+    return $this->hasOne(Profile::class);
+}
+
 
 public function votes()
 {

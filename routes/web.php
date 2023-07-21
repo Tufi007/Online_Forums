@@ -88,6 +88,19 @@ Route::middleware('auth')->group(function () {
     Route::post('/update_comment/{comment_id}', [CommentController::class, 'updateComment'])->name('update_comment');
 });
 
+// Routes to update profile data and user data
+// web.php
+Route::middleware('auth')->group(function () {
+
+    // Route to update user data and profile data
+    Route::post('/update_user_data', [AuthController::class, 'updateUserData'])->name('update_user_data');
+    Route::post('/update_profile_data', [ProfileController::class, 'updateProfile'])->name('update_profile_data');
+
+    // Route to create profile
+    Route::post('/create_profile', [ProfileController::class, 'createProfile'])->name('create_profile');
+});
+
+
 
 
 

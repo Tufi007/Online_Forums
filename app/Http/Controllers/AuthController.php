@@ -72,6 +72,28 @@ class AuthController extends Controller
         }
     }
 
+    public function updateUserData(Request $request)
+    {
+        // Validate the form data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            // 'email' => 'required|email|max:255',
+            // 'username' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:20',
+            'alternate_phone_number' => 'required|string|max:20',
+            // Add other user fields here...
+        ]);
+
+        // Get the currently logged-in user
+        $user = User::find(Auth::id());
+
+        // Update the user data
+        $user->update($validatedData);
+
+        // Redirect back to the profile edit page with a success message
+        return redirect()->back()->with('success', 'User data updated successfully!');
+    }
+
 
     public function logout(Request $request)
     {
