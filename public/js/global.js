@@ -226,3 +226,41 @@ function validatePassword() {
 function confirmDelete() {
     return confirm('Are you sure you want to delete your account?');
 }
+
+function navToggleAuth(navBtnId){
+    const navBtn = document.getElementById(navBtnId);
+    const navItems = document.querySelectorAll('.nav-item');
+    const navProfile = document.getElementById("nav-profile");
+    navItems.forEach(element => {
+        const computedStyle = window.getComputedStyle(element);
+        const displayValue = computedStyle.getPropertyValue('display');
+        if(displayValue === 'none'){
+            element.style.display = "block";
+            navProfile.style.display = "flex";
+            navBtn.innerHTML = "<i class=\"fa-solid fa-xmark\"></i>";
+            navBtn.style.alignSelf = "center";
+        } else {
+            element.style.display = "none";
+            navProfile.style.display = "none";
+            navBtn.innerHTML = "<i class=\"fa-solid fa-bars\"></i>";
+            navBtn.style.alignSelf = "end";
+        }
+    });
+}
+function navToggleGuest(navBtnId){
+    const navBtn = document.getElementById(navBtnId);
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(element => {
+        const computedStyle = window.getComputedStyle(element);
+        const displayValue = computedStyle.getPropertyValue('display');
+        if(displayValue === 'none'){
+            element.style.display = "block";
+            navBtn.innerHTML = "<i class=\"fa-solid fa-xmark\"></i>";
+            navBtn.style.alignSelf = "center";
+        } else {
+            element.style.display = "none";
+            navBtn.innerHTML = "<i class=\"fa-solid fa-bars\"></i>";
+            navBtn.style.alignSelf = "end";
+        }
+    });
+}

@@ -1,0 +1,65 @@
+:root{
+    --theme-text-color: #FFFFFF;
+    --theme-box-red: #f33b2f;
+}
+*{
+    font-family: sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0%;
+}
+.navbar-container{
+    background-color: var(--theme-box-red);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 1em 0em;
+}
+.navbar-container li{
+    list-style-type: none;
+    color: var(--theme-text-color);
+}
+.navbar-container li a {
+    text-decoration: none;
+    color: var(--theme-text-color);
+}
+.navbar-container #nav-profile{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.navbar-container .profile-picture-container{
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-left: 10px;
+}
+.navbar-container .profile-picture-container .profile-picture{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hidden-btn {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .hidden-btn{
+        display: block;
+    }
+   .navbar-container  .nav-item{
+        display: none;
+    }
+    .navbar-container #nav-profile{
+        display: none;
+    }
+    /* Show the mobile menu when checkbox is checked */
+    .navbar-container{
+        flex-direction: column;
+        row-gap: 10px;
+        padding: 10px;
+    }
+}

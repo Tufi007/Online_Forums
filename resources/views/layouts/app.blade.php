@@ -7,7 +7,8 @@
 
     <title>X-advice</title>
     <script defer src="{{ asset('js/global.js') }}"></script>
-
+    <link rel="stylesheet" href="{{ asset('css/global.css') }}">
+    <script defer src="https://kit.fontawesome.com/1bc2765d38.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
