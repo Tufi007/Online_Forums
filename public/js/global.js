@@ -52,10 +52,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             imageContainer.appendChild(imageInput);
             imageCount++;
-
-            if (imageCount === maxImages) {
-                addImageButton.disabled = true;
-            }
+            // console.log(imageCount);
+        } else {
+            addImageButton.disabled = true;
+            alert("You can add only upto 5 images per answer.");
         }
     });
 });
@@ -227,6 +227,19 @@ function confirmDelete() {
     return confirm('Are you sure you want to delete your account?');
 }
 
+function enableDeleteBtn(){
+    console.log("Called");
+    const deleteAccountBtn = document.getElementById("delete-account-btn");
+    const password = document.getElementById("deleteAccountPassword").value;
+    if( password.length > 8) {
+        deleteAccountBtn.style.backgroundColor = "#F33B2F";
+        deleteAccountBtn.disabled = false;
+    } else {
+        deleteAccountBtn.disabled = true;
+        deleteAccountBtn.style.backgroundColor = "grey";
+    }
+}
+
 function navToggleAuth(navBtnId){
     const navBtn = document.getElementById(navBtnId);
     const navItems = document.querySelectorAll('.nav-item');
@@ -264,3 +277,8 @@ function navToggleGuest(navBtnId){
         }
     });
 }
+
+
+
+
+
