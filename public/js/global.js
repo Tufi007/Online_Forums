@@ -231,7 +231,7 @@ function enableDeleteBtn(){
     console.log("Called");
     const deleteAccountBtn = document.getElementById("delete-account-btn");
     const password = document.getElementById("deleteAccountPassword").value;
-    if( password.length > 8) {
+    if( password.length >= 8) {
         deleteAccountBtn.style.backgroundColor = "#F33B2F";
         deleteAccountBtn.disabled = false;
     } else {

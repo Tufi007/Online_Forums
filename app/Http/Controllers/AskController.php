@@ -13,7 +13,7 @@ class AskController extends Controller
     public function showForm()
     {
         $subjects = Subject::all();
-        return view('ask_form', compact('subjects'));
+        return view('questions.ask_form', compact('subjects'));
     }
 
     public function submitQuestion(Request $request)

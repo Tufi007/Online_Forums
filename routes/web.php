@@ -11,7 +11,7 @@ use App\Http\Controllers\VoteController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/signup', [AuthController::class, 'showSignupForm'])->name('signup');
 Route::post('/signup', [AuthController::class, 'signup'])->name('signup.submit');
@@ -106,6 +106,15 @@ Route::middleware('auth')->group(function () {
 
 
 });
+
+
+Route::get('/search-users-page', [ProfileController::class, 'showSearchUsers'])->name('showSearchUsers');
+
+Route::post('/search-users', [ProfileController::class, 'searchUsers'])->name('searchUsers');
+
+ Route::get('/view-profile/{id}', [ProfileController::class, 'viewProfile'])->name('viewProfile');
+
+
 
 
 

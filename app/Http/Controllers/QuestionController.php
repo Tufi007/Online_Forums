@@ -11,7 +11,7 @@ class QuestionController extends Controller
     public function showGlobalQuestions()
 {
     $questions = Question::all(); // Retrieve all questions from the database
-    return view('global_questions', compact('questions'));
+    return view('questions.global_questions', compact('questions'));
 }
 
 
@@ -21,7 +21,7 @@ public function editQuestion($question_id)
     $question = Question::find($question_id);
     // Additional logic for editing the question
     $subjects = Subject::all();
-    return view('edit_question', compact('question', 'subjects'));
+    return view('questions.edit_question', compact('question', 'subjects'));
 }
 
 public function updateQuestion(Request $request, $q_id)

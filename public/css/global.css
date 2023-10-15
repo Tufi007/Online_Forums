@@ -1,208 +1,48 @@
-:root{
-    --theme-text-color: #FFFFFF;
-    --theme-box-red: #f33b2f;
-    --theme-success: #36a420;
-}
-*{
-    font-family: sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    margin: 0%;
-}
-.navbar-container{
-    background-color: var(--theme-box-red);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    padding: 1em 0em;
-}
-.navbar-container li{
-    list-style-type: none;
-    color: var(--theme-text-color);
-}
-.navbar-container li a {
-    text-decoration: none;
-    color: var(--theme-text-color);
-}
-.navbar-container #nav-profile{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-.navbar-container .profile-picture-container{
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-left: 10px;
-}
-.navbar-container .profile-picture-container .profile-picture{
-    width: 100%;
+/* Code for home view starts*/
+ /* Sidebar Styles */
+ #sidebar {
     height: 100%;
-    object-fit: cover;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #f8f9fa; /* Adjust the background color as needed */
+    overflow-x: hidden;
+    transition: 0.3s;
+    padding-top: 60px;
+    z-index: 1; /* Increase the z-index value */
 }
 
-.hidden-btn {
-    display: none;
+#sidebar a {
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #333; /* Adjust the text color as needed */
+    display: block;
+    transition: 0.3s;
 }
 
-.form-container{
-    width: 100%;
-    min-height: 100vh;
-    background-image: linear-gradient(to right, #f1f1f1, #e6e6e6);
-}
-.form-container .form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    row-gap: 2em;
-    justify-content: space-evenly;
-    padding: 3em 4em;
-}
-.form-container .form .form-item{
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-}
-.form-container .form .form-item input[type="text"],
-.form-container .form .form-item input[type="textarea"],
-.form-container .form .form-item input[type="email"],
-.form-container .form .form-item input[type="password"],
-.form-container .form .form-item input[type="file"],
-.form-container .form .form-item input[type="date"],
-.form-container .form .form-item textarea{
- padding: 14px 16px;
- width: 330px;
- border: 1px solid var(--theme-box-red);
- border-radius: 2px;
- box-sizing: border-box;
-}
-.form-container .form .form-item input[type="text"]:focus,
-.form-container .form .form-item input[type="email"]:focus,
-.form-container .form .form-item input[type="password"]:focus,
-.form-container .form .form-item input[type="file"]:focus,
-.form-container .form .form-item textarea:focus{
-outline: 1px solid var(--theme-box-red);
+#sidebar a:hover {
+    color: #007bff; /* Adjust the hover color as needed */
 }
 
-.form-container .form .form-item button:hover{
-    transition: 300ms;
-    box-shadow: 5px 5px 15px 2px gray;
-    border: 1px solid var(--theme-text-color);
+#toggle-sidebar {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 2; /* Increase the z-index value */
 }
-
-.form-container .form .form-item .form-btn{
-    max-width: fit-content;
-    padding: 14px 16px;
-    box-sizing: border-box;
-    background-color: var(--theme-success);
-    color: var(--theme-text-color);
-    border: 1px solid var(--theme-success);
-    border-radius: 2px;
-    font-size: 14px;
-    font-weight: bold;
-}
-.form-container .form .form-item .form-btn:hover{
-    transition: 300ms;
-    box-shadow: 5px 5px 15px 2px gray;
-    border: 1px solid var(--theme-text-color);
-}
-
-.form-container .form .form-item .form-btn-alert{
-    max-width: fit-content;
-    padding: 14px 16px;
-    box-sizing: border-box;
-    background-color: var(--theme-box-red);
-    color: var(--theme-text-color);
-    border: 1px solid var(--theme-box-red);
-    border-radius: 2px;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.form-container .form .form-item .form-auth-btn{
-    padding: 14px 16px;
-    width: 330px;
-    box-sizing: border-box;
-    background-color: var(--theme-success);
-    color: var(--theme-text-color);
-    border: 1px solid var(--theme-success);
-    border-radius: 2px;
-    font-size: 18px;
-    font-weight: bold;
-}
-.form-container .form .form-item .form-auth-btn:hover{
-    transition: 300ms;
-    box-shadow: 5px 5px 15px 2px gray;
-    border: 1px solid var(--theme-text-color);
-}
-
-.form-container .form .form-item #addImageEditQ{
-    margin: 10px 0px;
-}
-
-.form-container .form .form-item input[type="file"]::file-selector-button {
-    padding: 14px 16px;
-    width: 150px;
-    box-sizing: border-box;
-    background-color: var(--theme-box-red);
-    color: var(--theme-text-color);
-    border: 1px solid var(--theme-success);
-    border-radius: 2px;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.form-container .form .form-item #imageContainer{
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-}
-
-.form-container .form .form-item input[type="checkbox"]{
-  width: 30px;
-  height: 30px;
-}
-
-.form-container .form .form-item select{
-    padding: 14px 16px;
-    background-color: var(--theme-box-red);
-    color: var(--theme-text-color);
-    font-size: 14px;
-}
-
-.form-container .form .form-item img {
-    width: 60%;
-}
-.form-container .form .image-box{
-    margin: 25px 0px;
-}
-
-.content-row{
+/* Code for home view ends*/
+#nav-profile{
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-around;
+    align-items: baseline;
 }
-.content-row .content-item{
-    width: 100%;
+#nav-profile .profile-picture-container img{
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 0px 5px 0px 10px;
 }
 
-@media (max-width: 600px) {
-    .hidden-btn{
-        display: block;
-    }
-   .navbar-container  .nav-item{
-        display: none;
-    }
-    .navbar-container #nav-profile{
-        display: none;
-    }
-    /* Show the mobile menu when checkbox is checked */
-    .navbar-container{
-        flex-direction: column;
-        row-gap: 10px;
-        padding: 10px;
-    }
-}

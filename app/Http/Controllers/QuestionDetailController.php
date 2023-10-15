@@ -21,6 +21,6 @@ class QuestionDetailController extends Controller
             ->whereIn('votable_id', $answers->pluck('a_id'))
             ->get();
 
-        return view('question_detail', compact('question', 'answers', 'questionVotes', 'answerVotes'));
+        return view('questions.question_detail', compact('question', 'answers', 'questionVotes', 'answerVotes'));
     }
 }

@@ -15,7 +15,7 @@ class AnswerController extends Controller
     public function showAnsForm($questionId)
     {
         $question = Question::find($questionId);
-        return view('answer_form', compact('question'));
+        return view('answers.answer_form', compact('question'));
     }
 
     public function submitAnswer(Request $request)
@@ -68,7 +68,7 @@ class AnswerController extends Controller
 {
     $answer = Answer::find($answer_id);
     // Additional logic for editing the answer
-    return view('edit_answer', compact('answer'));
+    return view('asnwers.edit_answer', compact('answer'));
 }
 public function updateAnswer(Request $request, $answer_id)
 {

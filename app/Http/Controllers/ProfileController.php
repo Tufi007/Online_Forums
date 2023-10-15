@@ -16,7 +16,7 @@ class ProfileController extends Controller
     public function showProfile()
     {
         $user = User::with('questions', 'answers', 'comments', 'profiles')->find(Auth::id());
-        return view('my_profile', compact('user'));
+        return view('profile.my_profile', compact('user'));
     }
 
     public function updateProfile(Request $request)
@@ -116,5 +116,55 @@ class ProfileController extends Controller
         return redirect()->back()->with('error', 'Failed to create the profile. Please try again.');
     }
 }
+
+
+public function showSearchUsers()
+{
+    if (!Auth::check()) {
+        // The user is not logged in, set a flash message
+        session()->flash('error', 'Please log in to access the search page.');
+
+        // Redirect to the login page
+        return redirect()->route('login');
+    }
+
+    return view('profile.searchUsers');
+}
+
+public function searchUsers(Request $request)
+{
+    $searchQuery = $request->input('search_query');
+    $users = User::where('name', 'like', "%$searchQuery%")
+        ->orWhere('email', 'like', "%$searchQuery%")
+        ->orWhere('username', 'like', "%$searchQuery%")
+        ->orWhere('phone_number', 'like', "%$searchQuery%")
+        ->orWhere('alternate_phone_number', 'like', "%$searchQuery%")
+        ->get();
+
+    if ($users->isEmpty()) {
+        return redirect()->route('showSearchUsers')->with('error', 'No users found.');
+    }
+
+    return view('profile.searchUsers', ['users' => $users]);
+}
+
+public function viewProfile($id)
+{
+    $user = User::find($id);
+
+    if (!$user) {
+        return redirect()->route('searchUsers')->with('error', 'User not found.');
+    }
+
+    // Check if the user has a profile
+    if (!$user->hasProfile()) {
+        return redirect()->route('searchUsers')->with('error', 'No profile available for this user.');
+    }
+
+    // Load the user's profile and display the 'generalProfile' view
+    $profile = $user->profile;
+    return view('profile.generalProfile', ['user' => $user, 'profile' => $profile]);
+}
+
 
 }

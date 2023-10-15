@@ -12,6 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
+        $schedule->command('promotion:usersToAdmin')->daily();
         $schedule->command('accounts:check-deletion-requests')->daily();
     }
 

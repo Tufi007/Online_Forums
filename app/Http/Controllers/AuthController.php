@@ -14,7 +14,7 @@ class AuthController extends Controller
 
     public function showSignupForm()
     {
-        return view('signup');
+        return view('authentication.signup');
     }
 
     public function signup(Request $request)
@@ -44,7 +44,7 @@ class AuthController extends Controller
 
     public function showLoginForm()
     {
-        return view('login');
+        return view('authentication.login');
     }
 
     public function login(Request $request)

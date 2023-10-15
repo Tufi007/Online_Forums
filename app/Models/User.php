@@ -49,30 +49,42 @@ class User extends Authenticatable
     ];
 
     public function questions()
-{
-    return $this->hasMany(Question::class, 'user_id');
-}
+    {
+        return $this->hasMany(Question::class, 'user_id');
+    }
 
-public function answers()
-{
-    return $this->hasMany(Answer::class, 'user_id');
-}
+    public function answers()
+    {
+        return $this->hasMany(Answer::class, 'user_id');
+    }
 
-public function profiles()
-{
-    return $this->hasOne(Profile::class);
-}
+    public function profiles()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    public function hasProfile()
+    {
+        return $this->profiles()->exists();
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
 
 
-public function votes()
-{
-    return $this->hasMany(Vote::class);
-}
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 
-
-public function comments()
-{
-    return $this->hasMany(Comment::class);
-}
-
+    public function admin()
+    {
+        return $this->hasOne(Admin::class);
+    }
+    public function isAdmin()
+    {
+        return $this->admin()->exists();
+    }
 }
