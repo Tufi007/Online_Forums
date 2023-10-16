@@ -87,4 +87,30 @@ public function updateQuestion(Request $request, $q_id)
     return redirect()->route('my_profile', ['q_id' => $q_id])->with('success', 'Question updated successfully!');
 }
 
+public function showSearchQuestions()
+{
+    if (!auth()->check()) {
+        return redirect()->route('login')->with('message', 'Please log in to access this feature.');
+    }
+
+    return view('questions.searchQuestions');
+}
+
+public function searchQuestions(Request $request)
+{
+    $search = $request->input('search');
+
+    if (!empty($search)) {
+        $questions = Question::where('title', 'like', '%' . $search . '%')
+                            ->orWhere('description', 'like', '%' . $search . '%')
+                            ->get();
+    } else {
+        $questions = []; // No search term provided, so no results
+    }
+
+    return view('questions.searchQuestions', ['questions' => $questions]);
+}
+
+
+
 }

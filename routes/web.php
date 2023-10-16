@@ -10,6 +10,7 @@ use App\Http\Controllers\QuestionDetailController;
 use App\Http\Controllers\VoteController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -112,10 +113,15 @@ Route::get('/search-users-page', [ProfileController::class, 'showSearchUsers'])-
 
 Route::post('/search-users', [ProfileController::class, 'searchUsers'])->name('searchUsers');
 
- Route::get('/view-profile/{id}', [ProfileController::class, 'viewProfile'])->name('viewProfile');
+Route::get('/view-profile/{id}', [ProfileController::class, 'viewProfile'])->name('viewProfile');
 
+Route::get('/showSearch-questions', [QuestionController::class, 'showSearchQuestions'])->name('showSearch.questions');
 
+Route::get('/search-questions', [QuestionController::class, 'searchQuestions'])->name('questions.search');
 
+Route::middleware('auth')->group(function () {
+    Route::post('/admin/make-admin/{user_id}', [AdminController::class, 'makeAdmin'])->name('admin.make.admin');
+});
 
 
 

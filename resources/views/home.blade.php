@@ -14,7 +14,7 @@
                     <li class="list-group-item"><a href="{{ route('global_questions') }}">Global Questions</a></li>
                     <li class="list-group-item"><a href="{{ route('showSearchUsers') }}">Search Users</a>
                     </li>
-                    <li class="list-group-item"><a href="#">Sample Button 2</a></li>
+                    <li class="list-group-item"><a href="{{ route('showSearch.questions') }}">Search Questions</a></li>
                     <li class="list-group-item"><a href="#">Sample Button 3</a></li>
                 </ul>
             </div>

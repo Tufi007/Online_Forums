@@ -68,7 +68,7 @@ class AnswerController extends Controller
 {
     $answer = Answer::find($answer_id);
     // Additional logic for editing the answer
-    return view('asnwers.edit_answer', compact('answer'));
+    return view('answers.edit_answer', compact('answer'));
 }
 public function updateAnswer(Request $request, $answer_id)
 {

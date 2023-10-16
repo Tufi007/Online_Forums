@@ -279,6 +279,13 @@ function navToggleGuest(navBtnId){
 }
 
 
+(function(){
+    function openMakeAdminModal() {
+        var modal = document.getElementById("makeAdminModal");
+        modal.style.display = "block";
+    }
+})();
+
 
 
 

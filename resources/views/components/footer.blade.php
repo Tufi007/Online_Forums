@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="card mt-4">
+    <div class="card mt-4 bg-dark border border-white text-white"> <!-- Added "border" and "bg-dark" classes -->
       <div class="card-body">
         <h5 class="card-title">Project Details</h5>
         <p class="card-text text-justify">

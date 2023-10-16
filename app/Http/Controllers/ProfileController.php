@@ -133,6 +133,7 @@ public function showSearchUsers()
 
 public function searchUsers(Request $request)
 {
+
     $searchQuery = $request->input('search_query');
     $users = User::where('name', 'like', "%$searchQuery%")
         ->orWhere('email', 'like', "%$searchQuery%")
@@ -141,7 +142,7 @@ public function searchUsers(Request $request)
         ->orWhere('alternate_phone_number', 'like', "%$searchQuery%")
         ->get();
 
-    if ($users->isEmpty()) {
+    if ($users->isEmpty() || empty($searchQuery)) {
         return redirect()->route('showSearchUsers')->with('error', 'No users found.');
     }
 

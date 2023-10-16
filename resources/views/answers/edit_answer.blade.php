@@ -1,53 +1,51 @@
-<!-- edit_answer.blade.php -->
 @extends('layouts.app')
 
 @section('content')
-<div class="form-container">
+<div class="container mt-4">
     <form class="form" method="post" action="{{ route('update_answer', ['answer_id' => $answer->a_id]) }}" enctype="multipart/form-data">
         @csrf
-        <div class="form-item">
-        <h2>Edit Answer</h2>
+        <div class="form-item mb-3">
+            <h2>Edit Answer</h2>
         </div>
         <!-- Answer text field -->
-        <div class="form-item">
-            <label for="answer_text">Answer Text:</label>
-            <textarea name="answer_text" id="answer_text" cols="30" rows="10">{{ $answer->answer_text }}</textarea>
+        <div class="form-item mb-3">
+            <label for="answer_text" class="form-label">Answer Text:</label>
+            <textarea name="answer_text" id="answer_text" class="form-control" cols="30" rows="10">{{ $answer->answer_text }}</textarea>
         </div>
 
         <!-- Image preview and delete buttons -->
-        <div>
+        <div class="mb-3">
             <strong>Images:</strong>
             @if ($answer->image)
             @foreach (json_decode($answer->image) as $imagePath)
             <div class="form-item image-box">
-                <img src="{{ asset($imagePath) }}" alt="Answer Image">
-                <button class="delete-image form-btn-alert" data-image="{{ $imagePath }}">Delete</button>
+                <img src="{{ asset($imagePath) }}" alt="Answer Image" class="img-fluid">
+                <button class="delete-image btn btn-danger mt-3" data-image="{{ $imagePath }}">Delete</button>
             </div>
             @endforeach
             @endif
         </div>
 
         <!-- New images input -->
-        <div class="form-item">
+        <div class="form-item mb-3">
             <strong>Upload New Images:</strong>
-            <input type="file" name="new_images[]" multiple>
+            <input type="file" name="new_images[]" class="form-control" multiple>
         </div>
 
         <!-- Hidden input to store deleted images -->
         <div class="form-item">
             <input type="hidden" name="deleted_images" id="deletedImages">
         </div>
-        <div class="form-item">
-            <label for="reference_links">Reference Links</label>
-            <input type="text" name="reference_links" id="reference_links" value="{{ $answer->reference_links }}">
+        <div class="form-item mb-3">
+            <label for="reference_links" class="form-label">Reference Links:</label>
+            <input type="text" name="reference_links" id="reference_links" class="form-control" value="{{ $answer->reference_links }}">
         </div>
 
-        <div class="form-item">
-            <button type="submit" class="form-btn">Update Answer</button>
+        <div class="form-item mb-3">
+            <button type="submit" class="btn btn-primary">Update Answer</button>
         </div>
     </form>
 </div>
-
 
 <script>
     // Delete image when the "Delete" button is clicked

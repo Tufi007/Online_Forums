@@ -1,39 +1,34 @@
-<!-- edit_question.blade.php -->
 @extends('layouts.app')
 
 @section('content')
-<div class="form-container">
+<div class="container mt-4">
     <form class="form" method="post" action="{{ route('update_question', ['q_id' => $question->q_id]) }}" enctype="multipart/form-data">
         @csrf
-
-        <div class="form-item">
+        <div class="form-item mb-3">
             <h2>Edit Question</h2>
         </div>
         <!-- Title -->
-        <div class="form-item">
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" value="{{ $question->title }}">
+        <div class="form-item mb-3">
+            <label for="title" class="form-label">Title:</label>
+            <input type="text" id="title" name="title" class="form-control" value="{{ $question->title }}">
         </div>
 
         <!-- Description -->
-        <div class="form-item">
-            <label for="description">Description:</label>
-            <textarea id="description" name="description">{{ $question->description }}</textarea>
+        <div class="form-item mb-3">
+            <label for="description" class="form-label">Description:</label>
+            <textarea id="description" name="description" class="form-control">{{ $question->description }}</textarea>
         </div>
 
-        <!-- Other columns from the questions table -->
-        <!-- Add other fields here -->
-
         <!-- Images -->
-        <div>
+        <div class="mb-3">
             <strong>Images:</strong>
             <!-- Show existing images -->
             @if ($question->image)
             <div class="existing-images">
                 @foreach (json_decode($question->image) as $imagePath)
-                <div class="form-item image-box">
-                    <img src="{{ asset($imagePath) }}" alt="Question Image">
-                    <button type="button" class="delete-image form-btn-alert" data-image="{{ $imagePath }}">Delete</button>
+                <div class="form-item image-box mb-3">
+                    <img src="{{ asset($imagePath) }}" alt="Question Image" class="img-fluid">
+                    <button type="button" class="delete-image btn btn-danger mt-3" data-image="{{ $imagePath }}">Delete</button>
                 </div>
                 @endforeach
             </div>
@@ -41,29 +36,28 @@
             <!-- Allow users to delete existing images -->
             <input type="hidden" id="deletedImages" name="deleted_images" value="">
             <!-- Allow users to upload new images -->
-            <div class="form-item">
-                <label for="images">Images:</label>
-                <div id="imageContainerEditQ" class="form-item">
-                    <input type="file" name="new_images[]" multiple>
+            <div class="form-item mb-3">
+                <label for="images" class="form-label">Images:</label>
+                <div class="form-item">
+                    <input type="file" name="new_images[]" class="form-control" multiple>
                 </div>
             </div>
-
-            <div class="form-item">
-                <button type="button" id="addImageEditQ" class="form-btn">Add More Images</button>
+            <div class="form-item mb-3">
+                <button type="button" id="addImageEditQ" class="btn btn-primary">Add More Images</button>
             </div>
         </div>
 
-        <div class="form-item">
-            <label for="subject">Subject:</label>
-            <select name="subject_id" id="subject">
+        <div class="form-item mb-3">
+            <label for="subject" class="form-label">Subject:</label>
+            <select name="subject_id" id="subject" class="form-select">
                 @foreach($subjects as $subject)
                 <option value="{{ $subject->s_id }}" @if($question->subject_id == $subject->s_id) selected @endif>{{ $subject->title }}</option>
                 @endforeach
             </select>
         </div>
         <!-- Submit button -->
-        <div class="form-item">
-            <button type="submit" class="form-btn">Update Question</button>
+        <div class="form-item mb-3">
+            <button type="submit" class="btn btn-primary">Update Question</button>
         </div>
     </form>
 </div>
