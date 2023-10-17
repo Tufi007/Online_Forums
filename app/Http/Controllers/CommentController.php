@@ -7,26 +7,49 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Comment;
 use App\Models\Question;
 use App\Models\Answer;
+use App\Models\Notification;
+use App\Models\User;
 
 class CommentController extends Controller
 {
     public function submitComment(Request $request)
-    {
-        $validatedData = $request->validate([
-            'answer_id' => 'required|exists:answers,a_id',
-            'question_id' => 'required|exists:questions,q_id',
-            'comment_text' => 'required|string',
-        ]);
+{
+    $validatedData = $request->validate([
+        'answer_id' => 'required|exists:answers,id',
+        'question_id' => 'required|exists:questions,id',
+        'comment_text' => 'required|string',
+    ]);
 
-        $comment = new Comment();
-        $comment->comment_text = $validatedData['comment_text'];
-        $comment->user_id = Auth::id();
-        $comment->q_id = $validatedData['question_id'];
-        $comment->a_id = $validatedData['answer_id'];
-        $comment->save();
+    $comment = new Comment();
+    $comment->comment_text = $validatedData['comment_text'];
+    $comment->user_id = Auth::id();
+    $comment->q_id = $validatedData['question_id'];
+    $comment->a_id = $validatedData['answer_id'];
+    $comment->save();
 
-        return redirect()->back()->with('success', 'Comment submitted successfully');
-    }
+    // Create a notification for the owner of the question
+    $question = Question::find($comment->q_id);
+    $notificationQuestionOwner = new Notification();
+    $notificationQuestionOwner->user_id = $question->user_id; // Get the question's owner
+    $notificationQuestionOwner->sender_id = Auth::id();
+    $notificationQuestionOwner->notifiable_id = $question->id; // Comment is related to an answer
+    $notificationQuestionOwner->notifiable_type = 'answer';
+    $notificationQuestionOwner->data = Auth::user()->name . ' commented on an answer.';
+    $notificationQuestionOwner->save();
+
+    // Create a notification for the owner of the answer
+    $answer = Answer::find($comment->a_id);
+    $notificationAnswerOwner = new Notification();
+    $notificationAnswerOwner->user_id = $answer->user_id; // Get the answer's owner
+    $notificationAnswerOwner->sender_id = Auth::id();
+    $notificationAnswerOwner->notifiable_id = $question->id; // Comment is related to an answer
+    $notificationAnswerOwner->notifiable_type = 'answer';
+    $notificationAnswerOwner->data = Auth::user()->name . ' commented on your answer.';
+    $notificationAnswerOwner->save();
+
+    return redirect()->back()->with('success', 'Comment submitted successfully');
+}
+
 
     public function getComments($answerId)
     {
@@ -36,7 +59,8 @@ class CommentController extends Controller
     }
 
 
-    public function updateComment(Request $request, $comment_id) {
+    public function updateComment(Request $request, $comment_id)
+    {
         // Validate the form data
         $request->validate([
             'comment_text' => 'required|string|max:255', // Adjust validation rules as needed
@@ -57,5 +81,4 @@ class CommentController extends Controller
         // Redirect back to the previous page with a success message
         return redirect()->back()->with('success', 'Comment updated successfully');
     }
-
 }

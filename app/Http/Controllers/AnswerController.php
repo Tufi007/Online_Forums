@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Question;
 use App\Models\Answer;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\log;
@@ -57,6 +58,17 @@ class AnswerController extends Controller
 
         // Save the answer
         if ($answer->save()) {
+            // Create a notification for the question owner
+           $question = Question::findOrFail($request->input('q_id'));
+           if ($question->user_id !== $userId) {
+            Notification::create([
+                'user_id' => $question->user_id,
+                'sender_id' => $userId,
+                'notifiable_id' => $question->id,
+                'notifiable_type' => 'answer',
+                'data' => 'Your question received a new answer from' . Auth::user()->name . '.',
+            ]);
+        }
             Session::flash('success', 'Answer submitted successfully!');
         } else {
             Session::flash('error', 'Failed to submit the answer. Please try again.');

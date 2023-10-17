@@ -37,6 +37,6 @@
         </p>
       </div>
     </div>
-    <p class="mt-3">Developed By Mohammad Hisham Mir</p>
+    <!-- <p class="mt-3">Developed By Mohammad Hisham Mir</p> -->
   </div>
 </footer>

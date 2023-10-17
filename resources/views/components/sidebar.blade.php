@@ -17,6 +17,8 @@
                     <li class="list-group-item"><a href="{{ route('subject-page') }}">Subjects</a></li>
                     @endif
                     @endif
+                    <li class="list-group-item"> <a href="{{ route('notifications.index') }}">View Notifications</a>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -12,6 +12,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\NotificationController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -139,6 +140,10 @@ Route::post('/update_comment/{comment_id}', [CommentController::class, 'updateCo
 
 
 Route::get('/questions/{subject?}', [QuestionController::class, 'index'])->name('questions.index');
+
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+
+Route::post('/notifications/markAsRead/{notification}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
 
 
 

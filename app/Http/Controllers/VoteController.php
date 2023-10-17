@@ -9,6 +9,7 @@ use App\Models\Question;
 use App\Models\Answer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use App\Models\Notification;
 
 class VoteController extends Controller
 {
@@ -55,6 +56,17 @@ class VoteController extends Controller
         $vote->votable_type = Question::class;
         $vote->vote = 1; // 1 for upvote, 0 for downvote
         $vote->save();
+
+
+        // Create a notification for the question owner
+        $notification = new Notification();
+        $notification->user_id = $question->user_id; // Question owner's user ID
+        $notification->sender_id = $userId;
+        $notification->notifiable_id = $questionId;
+        $notification->notifiable_type = Question::class;
+        $notification->data = Auth::user()->name . ' upvoted your question: "' . $question->title . '"';
+        $notification->save();
+
 
         return response()->json([
             'message' => 'Question upvoted successfully',
@@ -105,6 +117,15 @@ class VoteController extends Controller
         $vote->vote = 0; // 0 for downvote
         $vote->save();
 
+        // Create a notification for the question owner
+        $notification = new Notification();
+        $notification->user_id = $question->user_id; // Question owner's user ID
+        $notification->sender_id = $userId;
+        $notification->notifiable_id = $questionId;
+        $notification->notifiable_type = Question::class;
+        $notification->data = Auth::user()->name . ' downvoted your question: "' . $question->title . '"';
+        $notification->save();
+
         return response()->json([
             'message' => 'Question downvoted successfully',
         ]);
@@ -114,6 +135,7 @@ class VoteController extends Controller
     {
         // Validate the request data if needed
         $answer = Answer::where('id', $answerId)->first();
+        $question = Question::where('id', $answer->q_id)->first();
         if (!$answer) {
             throw new \InvalidArgumentException('Invalid Answer ID.');
         }
@@ -153,6 +175,15 @@ class VoteController extends Controller
         $vote->vote = 1; // 1 for upvote, 0 for downvote
         $vote->save();
 
+        // Create a notification for the answer owner
+        $notification = new Notification();
+        $notification->user_id = $answer->user_id; // Answer owner's user ID
+        $notification->sender_id = $userId;
+        $notification->notifiable_id = $question->id;
+        $notification->notifiable_type = Answer::class;
+        $notification->data = Auth::user()->name . ' upvoted your answer.';
+        $notification->save();
+
         // Return the success response if needed
         return response()->json([
             'message' => 'Answer upvoted successfully',
@@ -163,6 +194,7 @@ class VoteController extends Controller
     {
         // Validate the request data if needed
         $answer = Answer::where('id', $answerId)->first();
+        $question = Question::where('id', $answer->q_id)->first();
         if (!$answer) {
             throw new \InvalidArgumentException('Invalid Answer ID.');
         }
@@ -201,6 +233,16 @@ class VoteController extends Controller
         $vote->votable_type = Answer::class;
         $vote->vote = 0; // 1 for upvote, 0 for downvote
         $vote->save();
+
+
+        // Create a notification for the answer owner
+        $notification = new Notification();
+        $notification->user_id = $answer->user_id; // Answer owner's user ID
+        $notification->sender_id = $userId;
+        $notification->notifiable_id = $question->id;
+        $notification->notifiable_type = Answer::class;
+        $notification->data = Auth::user()->name . ' downvoted your answer.';
+        $notification->save();
 
         // Return the success response if needed
         return response()->json([

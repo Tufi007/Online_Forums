@@ -3,6 +3,10 @@
 @section('content')
 <div class="container">
     <h1 class="mb-4">Question Detail</h1>
+    <div class="card-header">
+        <p><strong>Asked By:</strong> {{ $question->user->name }} ({{ $question->user->username }}) </p>
+        <p> <strong>Asked on:</strong> {{ $question->created_at }} </p>
+    </div>
     <h2>{{ $question->title }}</h2>
     <p>{{ $question->description }}</p>
     <p> <strong>Subject</strong> {{ $question->subject->title }} </p>

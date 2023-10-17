@@ -88,4 +88,9 @@ class User extends Authenticatable
     {
         return $this->admin()->exists();
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
 }
