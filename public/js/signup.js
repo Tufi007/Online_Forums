@@ -21,3 +21,29 @@ confirmPasswordInput.addEventListener('input', function() {
         signupButton.disabled = false;
     }
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Get a reference to the form and the country_code input
+    const form = document.querySelector("form");
+    const countryCodeInput = document.getElementById("country_code");
+
+    // Define a regular expression pattern for a valid country code
+    // const countryCodePattern = /^\+\d{1,4}$/;
+    const countryCodePattern = /^\+(?:[1-9]\d{0,2}|[1-4]\d{3}|[5-9]\d{2}|[1-9]\d{0,2}|[1-4]\d{3}|[5-9]\d{2}|[1-9]\d{0,2}|[1-4]\d{3}|[5-9]\d{2})$/
+    ; // Modify the pattern as needed
+
+    // Add a form submission event listener
+    form.addEventListener("submit", function (event) {
+        // Get the value of the country code input
+        const countryCode = countryCodeInput.value;
+
+        // Check if the country code matches the pattern
+        if (!countryCodePattern.test(countryCode)) {
+            // Display an alert for an invalid country code
+            alert("Please enter a valid country code.");
+            // Prevent the form from being submitted
+            event.preventDefault();
+        }
+    });
+});

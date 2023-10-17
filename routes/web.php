@@ -11,6 +11,7 @@ use App\Http\Controllers\VoteController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SubjectController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -122,6 +123,28 @@ Route::get('/search-questions', [QuestionController::class, 'searchQuestions'])-
 Route::middleware('auth')->group(function () {
     Route::post('/admin/make-admin/{user_id}', [AdminController::class, 'makeAdmin'])->name('admin.make.admin');
 });
+
+
+Route::get('/subject-page', [SubjectController::class, 'showSubjects'])->name('subject-page');
+
+Route::get('/subjects/view/{subject_id}', [SubjectController::class, 'viewSubject'])->name('subject.view');
+
+Route::middleware('auth')->group(function () {
+    Route::put('/subjects/{subject}', [SubjectController::class, 'editSubject'])->name('subjects.edit');
+});
+
+Route::post('/subjects', [SubjectController::class, 'store'])->name('add.subject');
+
+Route::post('/update_comment/{comment_id}', [CommentController::class, 'updateComment'])->name('update_comment');
+
+
+Route::get('/questions/{subject?}', [QuestionController::class, 'index'])->name('questions.index');
+
+
+
+
+
+
 
 
 

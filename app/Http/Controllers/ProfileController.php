@@ -139,7 +139,6 @@ public function searchUsers(Request $request)
         ->orWhere('email', 'like', "%$searchQuery%")
         ->orWhere('username', 'like', "%$searchQuery%")
         ->orWhere('phone_number', 'like', "%$searchQuery%")
-        ->orWhere('alternate_phone_number', 'like', "%$searchQuery%")
         ->get();
 
     if ($users->isEmpty() || empty($searchQuery)) {

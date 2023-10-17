@@ -1,18 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-@if (session('success'))
-<div class="alert alert-success">
-    {{ session('success') }}
-</div>
-@endif
-
-@if (session('error'))
-<div class="alert alert-danger">
-    {{ session('error') }}
-</div>
-@endif
-
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -40,7 +28,7 @@
                 <div class="card-body">
                     <form class="needs-validation" action="{{ route('submit_answer') }}" method="POST" enctype="multipart/form-data" novalidate>
                         @csrf
-                        <input type="hidden" name="q_id" value="{{ $question->q_id }}">
+                        <input type="hidden" name="q_id" value="{{ $question->id }}">
 
                         <div class="mb-3">
                             <label for="answer_text" class="form-label">Answer Text</label>

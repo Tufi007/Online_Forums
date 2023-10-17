@@ -16,7 +16,7 @@ class VoteController extends Controller
     {
         // Validate the request data
         // Check if the provided question ID exists in the database
-        $question = Question::where('q_id', $questionId)->first();
+        $question = Question::where('id', $questionId)->first();
         if (!$question) {
             throw new \InvalidArgumentException('Invalid question ID.');
         }
@@ -65,7 +65,7 @@ class VoteController extends Controller
     public function downvoteQuestion(Request $request, $questionId)
     {
         // Validate the request data
-        $question = Question::where('q_id', $questionId)->first();
+        $question = Question::where('id', $questionId)->first();
         if (!$question) {
             throw new \InvalidArgumentException('Invalid question ID.');
         }
@@ -113,7 +113,7 @@ class VoteController extends Controller
     public function upvoteAnswer(Request $request, $answerId)
     {
         // Validate the request data if needed
-        $answer = Answer::where('a_id', $answerId)->first();
+        $answer = Answer::where('id', $answerId)->first();
         if (!$answer) {
             throw new \InvalidArgumentException('Invalid Answer ID.');
         }
@@ -162,7 +162,7 @@ class VoteController extends Controller
     public function downvoteAnswer(Request $request, $answerId)
     {
         // Validate the request data if needed
-        $answer = Answer::where('a_id', $answerId)->first();
+        $answer = Answer::where('id', $answerId)->first();
         if (!$answer) {
             throw new \InvalidArgumentException('Invalid Answer ID.');
         }

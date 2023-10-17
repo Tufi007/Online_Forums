@@ -17,10 +17,10 @@
                     <form class="needs-validation" action="{{ route('login.submit') }}" method="POST" novalidate>
                         @csrf
                         <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
+                            <label for="username" class="form-label">Username or Email</label>
                             <input type="text" class="form-control" name="username" id="username" required>
                             <div class="invalid-feedback">
-                                Please enter your username.
+                                Please enter your username or email
                             </div>
                         </div>
                         <div class="mb-3">

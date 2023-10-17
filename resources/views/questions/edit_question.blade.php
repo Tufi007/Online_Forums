@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mt-4">
-    <form class="form" method="post" action="{{ route('update_question', ['q_id' => $question->q_id]) }}" enctype="multipart/form-data">
+    <form class="form" method="post" action="{{ route('update_question', ['q_id' => $question->id]) }}" enctype="multipart/form-data">
         @csrf
         <div class="form-item mb-3">
             <h2>Edit Question</h2>
@@ -51,7 +51,7 @@
             <label for="subject" class="form-label">Subject:</label>
             <select name="subject_id" id="subject" class="form-select">
                 @foreach($subjects as $subject)
-                <option value="{{ $subject->s_id }}" @if($question->subject_id == $subject->s_id) selected @endif>{{ $subject->title }}</option>
+                <option value="{{ $subject->id }}" @if($question->subject_id == $subject->id) selected @endif>{{ $subject->title }}</option>
                 @endforeach
             </select>
         </div>

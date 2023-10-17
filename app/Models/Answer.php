@@ -11,8 +11,7 @@ class Answer extends Model
     use HasFactory;
 
     protected $table = 'answers';
-    protected $primaryKey = 'a_id';
-    public $timestamps = false;
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         'user_id',

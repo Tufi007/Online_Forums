@@ -19,28 +19,36 @@ class AuthController extends Controller
 
     public function signup(Request $request)
     {
-        // Validate the form data
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8',
+            'country_code' => 'required|string|max:10',
             'phone_number' => 'required|string|max:255',
-            'alternate_phone_number' => 'required|string|max:255',
         ]);
 
-        // Create a new user record - This code sends form data into database
-        $user = User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'username' => $validatedData['username'],
-            'password' => Hash::make($validatedData['password']),
-            'phone_number' => $validatedData['phone_number'],
-            'alternate_phone_number' => $validatedData['alternate_phone_number'],
-        ]);
+        try {
 
-        return redirect()->route('home');
+            $user = User::create([
+                'name' => $validatedData['name'],
+                'email' => $validatedData['email'],
+                'username' => $validatedData['username'],
+                'password' => Hash::make($validatedData['password']),
+                'country_code' => $validatedData['country_code'],
+                'phone_number' => $validatedData['phone_number'],
+            ]);
+
+
+            return redirect()->route('home')->with('success', 'Registration successful!');
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with('error', 'Registration failed. Please try again.');
+        }
     }
+
+
 
     public function showLoginForm()
     {
@@ -49,52 +57,54 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // Validate the form data
         $validatedData = $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        // Attempt to authenticate the user using username and password
+
+        $field = filter_var($validatedData['username'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+
         $credentials = [
-            'username' => $validatedData['username'],
+            $field => $validatedData['username'],
             'password' => $validatedData['password'],
         ];
 
         if (Auth::attempt($credentials)) {
-            // Authentication passed
-            // Redirect to the appropriate page
+
+
             $user = $request->user();
             if ($user->delete_requested_at) {
                 $user->update(['delete_requested_at' => null]);
             }
             return redirect()->route('home');
         } else {
-            // Authentication failed
-            // Redirect back with an error message
+
+
             return redirect()->back()->with('error', 'Invalid username or password');
         }
     }
 
+
     public function updateUserData(Request $request)
     {
-        // Validate the form data
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            // 'email' => 'required|email|max:255',
-            // 'username' => 'required|string|max:255',
+
+
             'phone_number' => 'required|string|max:20',
-            'alternate_phone_number' => 'required|string|max:20',
-            // Add other user fields here...
+            'country_code' => 'required|string|max:20',
         ]);
 
-        // Get the currently logged-in user
+
         $user = User::find(Auth::id());
 
-        // Update the user data
+
         $user->update($validatedData);
 
-        // Redirect back to the profile edit page with a success message
+
         return redirect()->back()->with('success', 'User data updated successfully!');
     }
 
@@ -112,9 +122,9 @@ class AuthController extends Controller
             return back()->withErrors(['current_password' => 'Incorrect current password']);
         }
 
-        // Update the password attribute with the new hashed password
+
         $user->password = Hash::make($request->new_password);
-        $user->save(); // Save the updated user model to the database
+        $user->save();
 
         return redirect()->route('my_profile')->with('success', 'Password changed successfully!');
     }
@@ -124,12 +134,12 @@ class AuthController extends Controller
     {
         $user = User::find(Auth::id());
 
-        // Check if the entered password matches the user's password in the database
+
         if (!Hash::check($request->password, $user->password)) {
             return redirect()->route('my_profile')->with('error', 'Incorrect password. Account deletion request canceled.');
         }
 
-        // Update the delete_requested_at column with the current timestamp
+
         $user->update(['delete_requested_at' => now()]);
 
         return redirect()->route('my_profile')->with('success', 'Account deletion requested. You have 10 days to cancel the request by logging in again.');

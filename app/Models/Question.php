@@ -13,10 +13,10 @@ class Question extends Model
 
 
     protected $table = 'questions';
-    protected $primaryKey = 'q_id';
+    protected $primaryKey = 'id';
 
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'user_id',
@@ -33,19 +33,23 @@ class Question extends Model
     }
 
     public function answers()
-{
-    return $this->hasMany(Answer::class, 'q_id');
-}
+    {
+        return $this->hasMany(Answer::class, 'q_id');
+    }
 
-public function votes()
-{
-    return $this->morphMany(Vote::class, 'votable');
-}
+    public function votes()
+    {
+        return $this->morphMany(Vote::class, 'votable');
+    }
 
-public function comments()
-{
-    return $this->hasMany(Comment::class, 'q_id');
-}
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'q_id');
+    }
 
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 's_id');
+    }
 
 }

@@ -42,7 +42,7 @@
                             <label for="subject" class="form-label">Subject</label>
                             <select class="form-select" name="subject_id" id="subject">
                                 @foreach($subjects as $subject)
-                                <option value="{{ $subject->s_id }}">{{ $subject->title }}</option>
+                                <option value="{{ $subject->id }}">{{ $subject->title }}</option>
                                 @endforeach
                             </select>
                         </div>

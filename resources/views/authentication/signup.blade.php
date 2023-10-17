@@ -46,12 +46,12 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="phone_number" class="form-label">Phone Number</label>
-                            <input type="text" class="form-control" name="phone_number" id="phone_number">
+                            <label for="country_code" class="form-label">Country Code</label>
+                            <input type="text" class="form-control" name="country_code" id="country_code">
                         </div>
                         <div class="mb-3">
-                            <label for="alternate_phone_number" class="form-label">Alternate Phone Number</label>
-                            <input type="text" class="form-control" name="alternate_phone_number" id="alternate_phone_number">
+                            <label for="phone_number" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" name="phone_number" id="phone_number">
                         </div>
                         <div class="mb-3">
                             <button class="btn btn-success" type="submit" name="signup" id="signup-button">Sign-up!</button>

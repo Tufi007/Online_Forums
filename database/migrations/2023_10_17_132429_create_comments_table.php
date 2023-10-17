@@ -16,8 +16,8 @@ class CreateCommentsTable extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('q_id')->references('q_id')->on('questions')->onDelete('cascade');
-            $table->foreign('a_id')->references('a_id')->on('answers')->onDelete('cascade');
+            $table->foreign('q_id')->references('id')->on('questions')->onDelete('cascade');
+            $table->foreign('a_id')->references('id')->on('answers')->onDelete('cascade');
         });
     }
 
@@ -26,4 +26,3 @@ class CreateCommentsTable extends Migration
         Schema::dropIfExists('comments');
     }
 }
-

@@ -54,12 +54,12 @@
                         <input type="text" class="form-control" name="username" value="{{ $user->username }}" required disabled>
                     </div>
                     <div class="mb-3">
-                        <label for="phone_number" class="form-label">Phone Number:</label>
-                        <input type="text" class="form-control" name="phone_number" value="{{ $user->phone_number }}" required>
+                        <label for="country_code" class="form-label">Country Code</label>
+                        <input type="text" class="form-control" name="country_code" value="{{ $user->country_code }}" required>
                     </div>
                     <div class="mb-3">
-                        <label for="alternate_phone_number" class="form-label">Alternate Phone Number:</label>
-                        <input type="text" class="form-control" name="alternate_phone_number" value="{{ $user->alternate_phone_number }}" required>
+                        <label for="phone_number" class="form-label">Phone Number:</label>
+                        <input type="text" class="form-control" name="phone_number" value="{{ $user->phone_number }}" required>
                     </div>
                     <div class="mb-3">
                         <button class="btn btn-primary" type="submit">Update User Data</button>
@@ -179,34 +179,58 @@
                 </form>
             </div>
             <!-- My questions data -->
-            <div id="questionsData" style="display: none;">
-                <h2>This is the questions data</h2>
-                <ul>
+            <div id="questionsData" class="mt-4" style="display: none;">
+                <h2 class="mb-3">This is the questions data</h2>
+                <ul class="list-group">
                     @foreach ($user->questions as $question)
-                    <li>{{ $question->title }} <a href="{{ route('edit_question', ['question_id' => $question->q_id]) }}">Edit</a></li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                        {{ $question->title }}
+                        <a href="{{ route('edit_question', ['question_id' => $question->id]) }}" class="btn btn-primary">Edit</a>
+                    </li>
                     @endforeach
                 </ul>
             </div>
+
             <!-- My answers data -->
-            <div id="answersData" style="display: none;">
-                <h2>This is the answers data</h2>
-                <ul>
+            <div id="answersData" class="mt-4" style="display: none;">
+                <h2 class="mb-3">This is the answers data</h2>
+                <ul class="list-group">
                     @foreach ($user->answers as $answer)
-                    <li>{{ $answer->answer_text }} <a href="{{ route('edit_answer', ['answer_id' => $answer->a_id]) }}">Edit</a> </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                        {{ $answer->answer_text }}
+                        <a href="{{ route('edit_answer', ['answer_id' => $answer->id]) }}" class="btn btn-primary">Edit</a>
+                    </li>
                     @endforeach
                 </ul>
             </div>
+
             <!-- My comments data -->
-            <div id="commentsData" style="display: none;">
-                <h2>This is the comments data</h2>
-                <ul>
+            <div id="commentsData" class="mt-4">
+                <h2 class="mb-3">This is the comments data</h2>
+                <ul class="list-group">
                     @foreach ($user->comments as $comment)
-                    <li id="comment-{{ $comment->id }}">{{ $comment->comment_text }}</li>
-                    <button class="edit-comment-button" onclick="openEditPopup('{{ $comment->id }}')" data-comment-id="{{ $comment->id }}" id="edit-comment-btn-{{ $comment->id }}">Edit</button>
-                    <!-- ... JavaScript for editing comments ... -->
+                    <li id="comment-{{ $comment->id }}" class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                        {{ $comment->comment_text }}
+                        <div class="btn-group">
+                            <button class="btn btn-primary edit-comment-button mx-2" data-comment-id="{{ $comment->id }}">Edit</button>
+                            <a href="{{ route('question_detail', ['question_id' => $comment->question->id]) }}" class="btn btn-primary">Question</a>
+                        </div>
+                    </li>
+                    <li id="edit-form-{{ $comment->id }}" style="display: none;" class="mt-2">
+                        <form id="editCommentForm-{{ $comment->id }}" method="post" action="{{ route('update_comment', ['comment_id' => $comment->id]) }}">
+                            @csrf
+                            <div class="form-group">
+                                <label for="comment_text">Comment Text:</label>
+                                <textarea name="comment_text" id="comment_text" class="form-control">{{ $comment->comment_text }}</textarea>
+                            </div>
+                            <button type="submit" form="editCommentForm-{{ $comment->id }}" class="btn btn-primary mt-2">Update</button>
+                        </form>
+                    </li>
                     @endforeach
                 </ul>
             </div>
+
+
             <!-- Delete Account section -->
             <div class="form-container" id="deleteAccountData" style="display: none;">
                 <form class="form" method="POST" action="{{ route('delete_account') }}" onsubmit="return confirmDelete()">

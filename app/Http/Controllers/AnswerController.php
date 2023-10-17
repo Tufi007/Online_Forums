@@ -25,7 +25,7 @@ class AnswerController extends Controller
             'answer_text' => 'required',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'reference_links' => 'nullable|url',
-            'q_id' => 'required|exists:questions,q_id',
+            'q_id' => 'required|exists:questions,id',
         ]);
 
         // Get the currently logged in user's ID
@@ -132,8 +132,5 @@ public function updateAnswer(Request $request, $answer_id)
     // Redirect to the user's profile page after successful update
     return redirect()->route('my_profile')->with('success', 'Answer updated successfully!');
 }
-
-
-
 
 }

@@ -35,26 +35,27 @@ class CommentController extends Controller
         return view('comments', compact('comments'));
     }
 
-    public function updateComment(Request $request, $comment_id)
-    {
+
+    public function updateComment(Request $request, $comment_id) {
         // Validate the form data
-        $validatedData = $request->validate([
-            'comment_text' => 'required|string|max:255',
+        $request->validate([
+            'comment_text' => 'required|string|max:255', // Adjust validation rules as needed
         ]);
 
-        // Get the comment to update
+        // Find the comment by its ID
         $comment = Comment::find($comment_id);
 
-        // Update the comment text
-        $comment->comment_text = $request->input('comment_text');
+        // Check if the comment exists
+        if (!$comment) {
+            return redirect()->back()->with('error', 'Comment not found.');
+        }
 
-        // Save the updated comment
+        // Update the comment data
+        $comment->comment_text = $request->input('comment_text');
         $comment->save();
 
-        // Return the updated comment data in JSON format
-        return response()->json([
-            'comment_text' => $comment->comment_text,
-        ]);
+        // Redirect back to the previous page with a success message
+        return redirect()->back()->with('success', 'Comment updated successfully');
     }
 
 }

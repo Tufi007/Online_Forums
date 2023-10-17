@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mt-4">
-    <form class="form" method="post" action="{{ route('update_answer', ['answer_id' => $answer->a_id]) }}" enctype="multipart/form-data">
+    <form class="form" method="post" action="{{ route('update_answer', ['answer_id' => $answer->id]) }}" enctype="multipart/form-data">
         @csrf
         <div class="form-item mb-3">
             <h2>Edit Answer</h2>

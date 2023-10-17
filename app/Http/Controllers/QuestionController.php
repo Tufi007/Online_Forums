@@ -8,10 +8,25 @@ use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
+    public function index($subject = null)
+{
+    // Retrieve all questions or filter by subject if provided
+    $questions = $subject
+        ? Question::where('s_id', $subject)->get()
+        : Question::all();
+
+    // Load all subjects for the dropdown
+    $subjects = Subject::all();
+
+    return view('questions.global_questions', compact('questions', 'subjects', 'subject'));
+}
+
+
     public function showGlobalQuestions()
 {
+    $subjects = Subject::all();
     $questions = Question::all(); // Retrieve all questions from the database
-    return view('questions.global_questions', compact('questions'));
+    return view('questions.global_questions', compact('questions', 'subjects'));
 }
 
 
@@ -30,7 +45,7 @@ public function updateQuestion(Request $request, $q_id)
     $validatedData = $request->validate([
         'title' => 'required',
         'description' => 'required',
-        'subject_id' => 'required|exists:subjects,s_id',
+        'subject_id' => 'required|exists:subjects,id',
         // Add other validation rules for other columns here
     ]);
 

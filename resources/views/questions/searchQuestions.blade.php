@@ -44,7 +44,7 @@
                 @foreach($questions as $question)
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <span>{{ $question->title }}</span>
-                    <a href="{{ route('question_detail', ['question_id' => $question->q_id]) }}" class="btn btn-sm btn-primary">View Full Question</a>
+                    <a href="{{ route('question_detail', ['question_id' => $question->id]) }}" class="btn btn-sm btn-primary">View Full Question</a>
                 </li>
 
                 @endforeach

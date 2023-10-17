@@ -23,7 +23,11 @@
                 <li class="nav-item" id="nav-profile">
                     @if(isset(Auth::user()->profiles))
                     <div class="profile-picture-container">
+                        @if(Auth::user()->profiles->profile_picture == null)
+                        <img class="profile-picture" width="5%" src="{{ asset('profilePictures/default-image.webp') }}" alt="Profile Picture">
+                        @else
                         <img class="profile-picture" width="5%" src="{{ asset(Auth::user()->profiles->profile_picture) }}" alt="Profile Picture">
+                        @endif
                     </div>
                     @endif
                     <a class="nav-link" href="{{ route('my_profile') }}">My Account</a>
